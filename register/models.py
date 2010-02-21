@@ -12,5 +12,8 @@ class RegisteredStudent(models.Model):
     name = models.CharField(max_length=100)
     regno = models.CharField(max_length=20)
     coll = models.CharField(max_length=100)
+    contact = models.CharField(max_length=11)
+    address = models.CharField(max_length=250)
+    	
     
 
