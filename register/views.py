@@ -2,6 +2,7 @@ from revels2010.register.models import Student_details, RegisteredStudent
 from django.shortcuts import render_to_response
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
+from django.contrib.auth.decorators import login_required
 
 # function to feed all the details into the database from the CSV file on my desktop
 # this is awesome 
@@ -62,11 +63,15 @@ def home(request):
    
 ## reigstration page       
 def reg_page(request):
-    return render_to_response('register.html',{})
+    return render_to_response('registration.html',{})
 
+def mit(request):
+    return render_to_response('register.html',{})
 
 def authentication(request):
     return render_to_response('login.html',{})
+def outsider(request):
+    return render_to_response('outside.html',{})	
 
 #@login_required    
 def access_check(request):
@@ -81,7 +86,7 @@ def access_check(request):
 
 
 
-
+#@ilogin_required
 def outside(request):
     regno_form = request.POST['regno']	
     try:	
@@ -96,10 +101,12 @@ def outside(request):
 	newreg.contact= request.POST['contact']
         newreg.save()
         obj = RegisteredStudent.objects.get(regno=regno_form)
+	d={}
 	d['student_name']=obj.name
         d['student_regno'] = obj.regno
 	d['contact'] = obj.contact
 	d['student_college'] = obj.coll
+	d['regid'] = obj.id
         return render_to_response('index.html',d)
 
  
