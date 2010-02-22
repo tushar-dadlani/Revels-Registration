@@ -109,4 +109,7 @@ def outside(request):
 	d['regid'] = obj.id
         return render_to_response('index.html',d)
 
- 
+
+#def
+#def next_reg(request):
+#   return reg_page(request)

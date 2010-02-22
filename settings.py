@@ -1,6 +1,6 @@
 # Django settings for revels2010 project.
 
-DEBUG = True
+DEBUG = True  
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (

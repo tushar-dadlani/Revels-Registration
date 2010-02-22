@@ -14,6 +14,7 @@ urlpatterns = patterns('',
      (r'^check/','revels2010.register.views.access_check'),
      (r'^outside/$','revels2010.register.views.outsider'),
      (r'^outreg/$','revels2010.register.views.outside'),
+#     (r'^next_reg/$','revels2010.register.view.next_reg'),
     # to INSTALLED_APPS to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
