@@ -16,6 +16,9 @@ class RegisteredStudent(models.Model):
     email = models.CharField(max_length=50)	
     address = models.CharField(max_length=250)
     team = models.ForeignKey('Team',null=True)
+    regtime = models.DateTimeField(auto_now=True)
+    def __unicode__(self):
+        return self.regno
 
 	
 #class Event(models.Model):
@@ -23,14 +26,17 @@ class RegisteredStudent(models.Model):
     	
 class Category(models.Model):
     name = models.CharField(max_length=20)
-    head = models.CharField(max_length=40)
+    def __unicode__(self):
+        return self.name 	    
 
 class Event(models.Model):
     name = models.CharField(max_length=20)
     category = models.ForeignKey('Category')
-    head = models.CharField(max_length=40)
     participants = models.IntegerField()
+    def __unicode__(self):
+        return self.name	    
     
 class Team(models.Model):
     event = models.ForeignKey('Event') 
-    
+    def __unicode__(self):
+        return str(self.id)	    

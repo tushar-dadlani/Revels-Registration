@@ -1,4 +1,4 @@
-from revels2010.register.models import Student_details, RegisteredStudent, Category , Event , Team
+from revels2010.register.models import Student_details,RegisteredStudent,Category,Event,Team
 from django.shortcuts import render_to_response
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
@@ -7,7 +7,7 @@ import datetime
 
 # function to feed all the details into the database from the CSV file on my desktop
 # this is awesome 
-def feed_details():	
+'''def feed_details():	
     f= open("/home/tushar/Desktop/student.csv","r")
 
     list_lines = f.readlines()
@@ -25,9 +25,9 @@ def feed_details():
 	r.regno = regno
 	r.semester = sem
 	r.save()
-
+'''
 # function to query based on regno
-
+#@login_required
 def search_reg(val):
     
     student = Student_details.objects.get(regno=val)
@@ -68,6 +68,7 @@ def home(request):
 
    
 ## reigstration page       
+#@login_required	
 def reg_page(request):
     return render_to_response('registration.html',{})
 
@@ -81,8 +82,8 @@ def outsider(request):
 
 #@login_required    
 def access_check(request):
-    user = request.POST["username"]
-    password = request.POST["password"]
+    user = request.POST['username']
+    password = request.POST['password']
     authuser = authenticate(username=user,password=password)
     if authuser is None:
         return render_to_response('alreg.html',{'error':'Not Authorized to use this system'})
@@ -92,7 +93,7 @@ def access_check(request):
 
 
 
-#@ilogin_required
+#@login_required
 def outside(request):
     regno_form = request.POST['regno']	
     sname = request.POST['name']
@@ -165,4 +166,45 @@ def addTeam(event,list):	## takes name of event
     return team.id		 
 				
 
+def eventreg(request):
+    return render_to_response('eventlogin.html',{})
+
+def eventcheck(request):
+    user = request.POST['username']
+    password = request.POST['password']
+    authuser = authenticate(username=user,password=password)
+    if authuser is None:
+        return render_to_response('alreg.html',{'error':'Not Authorized to use this system'})
+    else:
+    	categories = Category.objects.all()                
+        return render_to_response('cateventlist.html',{'eventlist':categories})
+
+
+def getEventList(request):
+    cat = request.GET['category']
+    categ = Category.objects.get(name=cat)
     
+    eventobjs =  Event.objects.filter(category=categ.id)
+    return render_to_response('eventlist.html',{'events':eventobjs})
+
+def regforevent(request):
+    eventname = request.GET['events']
+    event = Event.objects.get(name=eventname)
+    numpart = event.participants
+    return render_to_response('regevent.html',{'eventname':event,'numpart':numpart})
+
+
+
+def regcomplete(request):
+    delnos = request.GET['delcard']
+    eventname = request.GET['eventid']
+    dellist = delnos.split(',')
+    teamid = addTeam(eventname,dellist)
+    return render_to_response('complete.html',{'teamid':teamid })	
+    
+
+def search(request):
+    delid = request.GET['delno']
+    delobj = RegisteredStudent.objects.get(pk=delid)
+    return render_to_response('searchresults.html',{ 'del':delobj })
+ 

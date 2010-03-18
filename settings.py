@@ -1,6 +1,6 @@
 # Django settings for revels2010 project.
 
-DEBUG = True  
+DEBUG = False  
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -78,4 +78,5 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'revels2010.register',
+    'django.contrib.admin',
 )
